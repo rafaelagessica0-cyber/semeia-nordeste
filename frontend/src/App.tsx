@@ -1,8 +1,12 @@
-import Home from './pages/home/home';
+import { ThemeProvider } from './context/ThemeContext';
+import Home from './pages/Home/Home';
 
 function App() {
   return (
-    <Home />
+    /* O ThemeProvider precisa abraçar a Home para ela funcionar */
+    <ThemeProvider>
+      <Home />
+    </ThemeProvider>
   );
 }
 
