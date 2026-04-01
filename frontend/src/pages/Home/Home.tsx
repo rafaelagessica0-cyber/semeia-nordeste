@@ -77,7 +77,7 @@ export default function Home() {
               <img 
                 src="/assets/logo-home.png" 
                 alt="Rede Nordeste" 
-                className="h-12 max-w-[280px] object-contain antialiased transition-transform hover:scale-105 duration-300" 
+                className="h-13 max-w-[280px] object-contain antialiased transition-transform hover:scale-105 duration-300" 
               />
             </Link>
           </div>
@@ -150,7 +150,6 @@ export default function Home() {
         {/* BOTÕES DE PERFIL */}
         <div className="flex flex-col md:flex-row gap-6 px-6 mb-20">
           <Link to="/cadastro" 
-            // Cor original Vinho (#B22246) -> Novo Verde Musgo (#55833d)
             className="flex flex-col items-center justify-center bg-[#55833d] text-white border-2 border-[#55833d] p-6 w-60 rounded-[2rem] transition-all hover:bg-white hover:text-[#55833d] shadow-lg group text-center"
           >
             <div className="flex items-center gap-2 mb-1">
@@ -160,7 +159,6 @@ export default function Home() {
             <span className="text-[9px] font-bold italic opacity-70">Quero anunciar meus produtos</span>
           </Link>
           <Link to="/cadastro" 
-            // Cor original Laranja (#F28C28) -> Novo Laranja Clay (#f9943b)
             className="flex flex-col items-center justify-center bg-[#f9943b] text-white border-2 border-[#f9943b] p-6 w-60 rounded-[2rem] transition-all hover:bg-white hover:text-[#f9943b] shadow-lg group text-center"
           >
             <div className="flex items-center gap-2 mb-1">
@@ -170,29 +168,6 @@ export default function Home() {
             <span className="text-[9px] font-bold italic opacity-70">Procuro produtos da região</span>
           </Link>
         </div>
-
-        {/* CATEGORIAS */}
-        <section className="w-full py-16 flex justify-center border-y bg-white border-gray-100">
-          <div className="w-full max-w-5xl px-6 flex flex-col items-start">
-            {/* Cor original Green (#2D3A27) -> Novo Primary Earth (#394158) */}
-            <h2 className="font-black uppercase tracking-[0.2em] text-lg mb-10 text-[#394158]">
-              Categorias
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 w-full justify-items-center">
-              {CATEGORIAS_DB.map((cat, index) => (
-                <div key={index} className="flex flex-col items-center group cursor-pointer space-y-3">
-                  <div className={`w-20 h-20 ${cat.cor} rounded-[40%_60%_70%_30%/50%_40%_60%_50%] flex items-center justify-center transition-all group-hover:rotate-6 group-hover:scale-110 shadow-md border border-black/5`}>
-                    <img src={cat.icon} alt={cat.nome} className="w-10 h-10 object-contain brightness-0 opacity-70 transition-all group-hover:opacity-100" />
-                  </div>
-                  {/* Cor original Green (#2D3A27) -> Novo Primary Earth (#394158) */}
-                  <span className="font-bold uppercase text-[10px] text-center tracking-widest text-[#394158]">
-                    {cat.nome}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* HISTÓRIAS DE VIDA - FUNDO AZUL ACINZENTADO FIXO */}
         <section className="w-full flex justify-center py-20">

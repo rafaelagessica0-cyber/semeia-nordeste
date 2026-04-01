@@ -22,14 +22,14 @@ export default function Register() {
       {/* HEADER DA PÁGINA */}
       <div className="w-full max-w-md flex flex-col items-center mb-10">
         <Link to="/">
-          <img src="/assets/logo-rede-nordeste.png" alt="Rede Nordeste" className="h-33 mb-6" />
+          <img src="/assets/logo-rede-nordeste.png" alt="Rede Nordeste" className="h-33 mb-1" />
         </Link>
       </div>
 
       <div className="w-full max-w-md bg-white p-8 rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100">
         
         {/* TÍTULO AGORA DENTRO DO CONTAINER */}
-        <h1 className="text-2xl font-black italic uppercase tracking-widest text-[#394158] text-center mb-8">
+        <h1 className="text-2xl font-black uppercase tracking-widest text-[#394158] mb-8 text-center">
           {step === 1 ? 'Crie sua conta' : 'Sua Lojinha'}
         </h1>
 
