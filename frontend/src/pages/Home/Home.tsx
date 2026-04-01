@@ -75,9 +75,9 @@ export default function Home() {
           <div className="flex items-center">
             <Link to="/">
               <img 
-                src="/assets/logo-rede-nordeste.png" 
+                src="/assets/logo-home.png" 
                 alt="Rede Nordeste" 
-                className="h-24 max-w-[280px] object-contain antialiased transition-transform hover:scale-105 duration-300" 
+                className="h-13 max-w-[280px] object-contain antialiased transition-transform hover:scale-105 duration-300" 
               />
             </Link>
           </div>
