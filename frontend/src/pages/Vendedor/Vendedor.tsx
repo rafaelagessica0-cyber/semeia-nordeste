@@ -4,7 +4,9 @@ import {
   Search, User, Plus, Edit, Trash2,
   LayoutGrid, Palette, Beef, Sprout, Wheat, Carrot, Milk
 } from 'lucide-react';
-
+import Pedidos from './components/Pedidos';
+import Dashboard from './components/Dashboard0';
+import ResumoHoje from './components/ResumoHoje';
 // DADOS INICIAIS
 const PRODUTOS_DATA = [
   { id: 1, categoria: 'Hortifruti', nome: 'Tomate Cereja Orgânico', local: 'Sítio Alvorada, SE', preco: 8.90, img: 'https://images.unsplash.com/photo-1591073113125-e46713c829ed?auto=format&fit=crop&w=400&q=80', ativo: true },
@@ -191,42 +193,12 @@ export default function Vendedor() {
         </section>
 
         {/* DASHBOARD */}
-        <section className="w-full mb-16">
-          <h2 className="text-sm font-black uppercase tracking-widest italic mb-10">
-            Dashboard
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-2xl shadow">
-              <p className="text-xs uppercase opacity-50">Produtos</p>
-              <h3 className="text-2xl font-black">{totalProdutos}</h3>
-            </div>
-
-            <div className="bg-white p-6 rounded-2xl shadow">
-              <p className="text-xs uppercase opacity-50">Faturamento</p>
-              <h3 className="text-2xl font-black">
-                R$ {faturamentoTotal.toFixed(2)}
-              </h3>
-            </div>
-
-            <div className="bg-white p-6 rounded-2xl shadow">
-              <p className="text-xs uppercase opacity-50">Mais caro</p>
-              <h3 className="text-sm font-black">
-                {produtoMaisCaro?.nome || '—'}
-              </h3>
-            </div>
-
-            <div className="bg-white p-6 rounded-2xl shadow">
-              <p className="text-xs uppercase opacity-50 mb-2">Categorias</p>
-              {Object.entries(categoriasCount).map(([cat, total]) => (
-                <div key={cat} className="flex justify-between text-xs">
-                  <span>{cat}</span>
-                  <span>{String(total)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+       <Dashboard
+  totalProdutos={totalProdutos}
+  faturamentoTotal={faturamentoTotal}
+  produtoMaisCaro={produtoMaisCaro}
+  categoriasCount={categoriasCount}
+/>
 
         {/* TÍTULO */}
         <div className="w-full flex justify-between items-center mb-10">
@@ -252,11 +224,15 @@ export default function Vendedor() {
             {produtosExibidos.map(prod => (
 <div 
   key={prod.id} 
-  className={`bg-white p-5 rounded-[2.5rem] shadow-xl flex flex-col group transition-all ${
-    prod.ativo ? 'hover:-translate-y-1' : 'opacity-50'
-  }`}
+ className={`bg-white p-5 rounded-[2.5rem] shadow-xl flex flex-col group transition-all relative ${
+  prod.ativo ? 'hover:-translate-y-1' : 'opacity-40 grayscale'
+}`}
 >
                 <div className="relative overflow-hidden rounded-[2rem] mb-4 aspect-square">
+                  <div className="absolute top-3 right-3 text-[10px] font-black px-2 py-1 rounded-full
+  ${prod.ativo ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}">
+  {prod.ativo ? 'ATIVO' : 'INATIVO'}
+</div>
 <img 
   src={prod.img} 
   className={`w-full h-full object-cover transition ${
@@ -268,9 +244,13 @@ export default function Vendedor() {
                   {prod.categoria}
                 </span>
 
-                <h3 className="font-bold text-sm mb-1">
-                  {prod.nome}
-                </h3>
+               <h3 className="font-bold text-sm mb-1">
+  {prod.nome}
+</h3>
+
+<p className="text-[10px] font-black text-[#55833d]">
+  Estoque total: {produtos.filter(p => p.categoria === prod.categoria).length}
+</p>
 
                 <p className="text-[10px] opacity-50 uppercase">
                   {prod.local}
@@ -324,7 +304,8 @@ export default function Vendedor() {
             ))}
           </div>
         </section>
-
+<Pedidos />
+<ResumoHoje />
       </main>
 
       {/* MODAL (igual) */}
@@ -398,6 +379,7 @@ export default function Vendedor() {
               <button onClick={() => setMostrarModal(false)} className="bg-gray-200 px-4 py-2 rounded-xl w-full">
                 Cancelar
               </button>
+              
             </div>
 
           </div>
