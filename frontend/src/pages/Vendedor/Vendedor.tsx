@@ -7,8 +7,8 @@ import {
 
 // DADOS INICIAIS
 const PRODUTOS_DATA = [
-  { id: 1, categoria: 'Hortifruti', nome: 'Tomate Cereja Orgânico', local: 'Sítio Alvorada, SE', preco: 8.90, img: 'https://images.unsplash.com/photo-1591073113125-e46713c829ed?auto=format&fit=crop&w=400&q=80' },
-  { id: 2, categoria: 'Laticínios', nome: 'Ovos Caipira (Dúzia)', local: 'Granja Girassol, BA', preco: 14.50, img: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=400&q=80' },
+  { id: 1, categoria: 'Hortifruti', nome: 'Tomate Cereja Orgânico', local: 'Sítio Alvorada, SE', preco: 8.90, img: 'https://images.unsplash.com/photo-1591073113125-e46713c829ed?auto=format&fit=crop&w=400&q=80', ativo: true },
+  { id: 2, categoria: 'Laticínios', nome: 'Ovos Caipira (Dúzia)', local: 'Granja Girassol, BA', preco: 14.50, img: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=400&q=80', ativo: true },
 ];
 
 const CATEGORIAS = [
@@ -37,6 +37,27 @@ export default function Vendedor() {
     img: '',
     categoria: 'Hortifruti',
   });
+
+  // 🔥 NOVO: toggle ativo
+  const toggleAtivo = (id: number) => {
+    setProdutos(produtos.map(p =>
+      p.id === id ? { ...p, ativo: !p.ativo } : p
+    ));
+  };
+
+  // 🔥 DASHBOARD (já existia)
+  const totalProdutos = produtos.length;
+
+  const faturamentoTotal = produtos.reduce((acc, p) => acc + p.preco, 0);
+
+  const produtoMaisCaro = produtos.reduce((maior, p) => 
+    p.preco > (maior?.preco || 0) ? p : maior
+  , null as any);
+
+  const categoriasCount = produtos.reduce((acc: any, p) => {
+    acc[p.categoria] = (acc[p.categoria] || 0) + 1;
+    return acc;
+  }, {});
 
   const handlePesquisa = () => {
     setTermoPesquisado(busca);
@@ -82,7 +103,8 @@ export default function Vendedor() {
         id: Date.now(),
         ...form,
         preco: Number(form.preco),
-        img: form.img || 'https://via.placeholder.com/150'
+        img: form.img || 'https://via.placeholder.com/150',
+        ativo: true // 🔥 NOVO
       };
       setProdutos([...produtos, novo]);
     }
@@ -101,7 +123,7 @@ export default function Vendedor() {
   return (
     <div className="min-h-screen bg-[#F5F2ED] text-[#394158] antialiased pb-20 font-sans">
 
-      {/* HEADER IGUAL COMPRADOR */}
+      {/* HEADER */}
       <header className="w-full bg-white py-4 px-8 border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-10">
@@ -120,7 +142,7 @@ export default function Vendedor() {
 
       <main className="max-w-7xl mx-auto px-8 pt-12 flex flex-col items-center">
 
-        {/* BUSCA IGUAL */}
+        {/* BUSCA */}
         <div className="relative w-full max-w-5xl mb-16">
           <input
             value={busca}
@@ -136,7 +158,7 @@ export default function Vendedor() {
           </button>
         </div>
 
-        {/* CATEGORIAS IGUAL */}
+        {/* CATEGORIAS */}
         <section className="w-full mb-16">
           <h2 className="text-sm font-black uppercase tracking-widest italic mb-10">
             Categorias
@@ -168,7 +190,45 @@ export default function Vendedor() {
           </div>
         </section>
 
-        {/* TÍTULO + BOTÃO */}
+        {/* DASHBOARD */}
+        <section className="w-full mb-16">
+          <h2 className="text-sm font-black uppercase tracking-widest italic mb-10">
+            Dashboard
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="bg-white p-6 rounded-2xl shadow">
+              <p className="text-xs uppercase opacity-50">Produtos</p>
+              <h3 className="text-2xl font-black">{totalProdutos}</h3>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow">
+              <p className="text-xs uppercase opacity-50">Faturamento</p>
+              <h3 className="text-2xl font-black">
+                R$ {faturamentoTotal.toFixed(2)}
+              </h3>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow">
+              <p className="text-xs uppercase opacity-50">Mais caro</p>
+              <h3 className="text-sm font-black">
+                {produtoMaisCaro?.nome || '—'}
+              </h3>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow">
+              <p className="text-xs uppercase opacity-50 mb-2">Categorias</p>
+              {Object.entries(categoriasCount).map(([cat, total]) => (
+                <div key={cat} className="flex justify-between text-xs">
+                  <span>{cat}</span>
+                  <span>{String(total)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* TÍTULO */}
         <div className="w-full flex justify-between items-center mb-10">
           <h1 className="text-xl font-black italic uppercase">
             Meus Produtos
@@ -186,15 +246,23 @@ export default function Vendedor() {
           </button>
         </div>
 
-        {/* PRODUTOS IGUAL AO COMPRADOR */}
+        {/* PRODUTOS */}
         <section className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {produtosExibidos.map(prod => (
-              <div key={prod.id} className="bg-white p-5 rounded-[2.5rem] shadow-xl flex flex-col group hover:-translate-y-1 transition-all">
-
+<div 
+  key={prod.id} 
+  className={`bg-white p-5 rounded-[2.5rem] shadow-xl flex flex-col group transition-all ${
+    prod.ativo ? 'hover:-translate-y-1' : 'opacity-50'
+  }`}
+>
                 <div className="relative overflow-hidden rounded-[2rem] mb-4 aspect-square">
-                  <img src={prod.img} className="w-full h-full object-cover group-hover:scale-105 transition" />
-                </div>
+<img 
+  src={prod.img} 
+  className={`w-full h-full object-cover transition ${
+    prod.ativo ? 'group-hover:scale-105' : 'grayscale'
+  }`}
+/>                </div>
 
                 <span className="text-[9px] font-black uppercase text-[#55833d]">
                   {prod.categoria}
@@ -214,7 +282,6 @@ export default function Vendedor() {
                   </span>
                 </div>
 
-                {/* BOTÕES LADO A LADO */}
                 <div className="mt-3 flex gap-2">
                   <button
                     onClick={() => {
@@ -241,6 +308,18 @@ export default function Vendedor() {
                   </button>
                 </div>
 
+                {/* 🔥 BOTÃO NOVO */}
+                <div className="mt-2">
+                  <button
+                    onClick={() => toggleAtivo(prod.id)}
+                    className={`w-full text-[9px] font-black uppercase py-2 rounded-xl ${
+                     prod.ativo ? 'bg-green-500 text-white' : 'bg-gray-400 text-white'
+                    }`}
+                  >
+                    {prod.ativo ? 'Ativo' : 'Inativo'}
+                  </button>
+                </div>
+
               </div>
             ))}
           </div>
@@ -248,7 +327,7 @@ export default function Vendedor() {
 
       </main>
 
-      {/* MODAL (NÃO ALTERADO) */}
+      {/* MODAL (igual) */}
       {mostrarModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
           <div className="bg-white p-8 rounded-[2rem] w-96 shadow-2xl">
