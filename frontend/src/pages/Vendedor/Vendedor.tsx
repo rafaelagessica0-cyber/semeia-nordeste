@@ -192,13 +192,7 @@ export default function Vendedor() {
           </div>
         </section>
 
-        {/* DASHBOARD */}
-       <Dashboard
-  totalProdutos={totalProdutos}
-  faturamentoTotal={faturamentoTotal}
-  produtoMaisCaro={produtoMaisCaro}
-  categoriasCount={categoriasCount}
-/>
+       
 
         {/* TÍTULO */}
         <div className="w-full flex justify-between items-center mb-10">
@@ -287,6 +281,7 @@ export default function Vendedor() {
                     <Trash2 size={12} /> Excluir
                   </button>
                 </div>
+                
 
                 {/* 🔥 BOTÃO NOVO */}
                 <div className="mt-2">
@@ -304,6 +299,13 @@ export default function Vendedor() {
             ))}
           </div>
         </section>
+         {/* DASHBOARD */}
+       <Dashboard
+  totalProdutos={totalProdutos}
+  faturamentoTotal={faturamentoTotal}
+  produtoMaisCaro={produtoMaisCaro}
+  categoriasCount={categoriasCount}
+/>
 <Pedidos />
 <ResumoHoje />
       </main>
