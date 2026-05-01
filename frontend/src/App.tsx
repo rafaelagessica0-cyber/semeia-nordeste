@@ -7,6 +7,7 @@ import Home2 from './pages/Home2/Home2';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import Receitas from './pages/Home2/Receitas';
+import Vendedor from "./pages/Vendedor/Vendedor";
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
 
           {/* Redirecionamento de segurança: se digitar rota errada, volta pra Home */}
           <Route path="*" element={<Navigate to="/" />} />
+
+          <Route path="/vendedor" element={<Vendedor />} />
+          
         </Routes>
       </div>
     </Router>
